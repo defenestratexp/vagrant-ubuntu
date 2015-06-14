@@ -22,6 +22,13 @@ echo "#########################"
 echo ""
 apt-get -y install python-pip
 
+# Install ipython #
+###################
+echo "# Installing Ipython #"
+echo "######################"
+echo ""
+apt-get -y install ipython
+
 # Install awscli #
 ##################
 echo "# Installing awscli #"
@@ -54,6 +61,14 @@ apt-get -y install mysql-client
 echo "# nginx Installation #"
 echo "######################"
 echo ""
+apt-get -y install nginx
+
+# Install lint tools #
+######################
+echo "# Installing lint checkers #"
+echo "############################"
+echo ""
+apt-get -y install puppet-lint pylint pyflakes lintian jlint linklint nslint weblint-perl
 
 # Create a non-vagrant user #
 #############################
