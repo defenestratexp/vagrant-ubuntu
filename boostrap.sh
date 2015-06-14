@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Epoch time before system updates #
+startingepoch=`date +%s`
+
 # Set the install directory #
 #############################
 workingdir=`pwd`
@@ -130,3 +133,10 @@ sudo -H -u tthompson /home/tthomspon/bin/getchef.sh
 # Copy vimrc #
 wget -O /home/tthompson/.vimrc https://www.dropbox.com/s/68d805d40bq517p/vimrc.txt?dl=0
 chown tthompson:tthompson /home/tthompson/.vimrc
+
+# Epoch time after last config #
+################################
+finishepoch=`date +%s`
+
+packageconfigtime=$(("startingepoch" - "finishepoch") / 60)
+echo "Package configuration took $packageconfigtime minutes"
