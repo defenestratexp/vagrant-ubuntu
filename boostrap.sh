@@ -60,14 +60,24 @@ echo ""
 echo "# Will run useradd to create a non-vagrant user #"
 echo "#################################################"
 echo ""
+
+# Groups #
+##########
 groupadd -f admins 
 groupadd -f adm 
 groupadd -f vboxuser 
+
+# my user #
+###########
 useradd -d /home/tthompson -m -s /bin/bash -G admins,adm,vboxuser tthompson
 
+# Local sudo Access #
+#####################
 echo "tthompson ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
+# Extra directories #
+#####################
 mkdir /home/tthompson/bin
 mkdir -p /home/tthompson/build/{repos,src,bin}
 mkdir /home/tthompson/tmp
@@ -88,6 +98,20 @@ chmod +x /home/tthompson/bin/getrails.sh
 chmod +x /home/tthompson/bin/getchef.sh
 chown -R tthompson:tthompson /home/tthompson
 
+# Execute rails script #
+########################
+echo "# Attempting to install rails for tthompson #"
+echo "#############################################"
+echo ""
+sudo -H -u tthompson /home/tthompson/bin/getrails.sh
+
+# Execute chef-client script #
+##############################
+echo "# Attempting to install chef-client for tthompson #"
+echo "###################################################"
+echo ""
+sudo -H -u tthompson /home/tthomspon/bin/getchef.sh
+
 # Copy vimrc #
-wget /home/tthompson/.vimrc https://www.dropbox.com/s/68d805d40bq517p/vimrc.txt?dl=0
-chown tthompson:tthompson /home/tthompson/.vimric
+wget -O /home/tthompson/.vimrc https://www.dropbox.com/s/68d805d40bq517p/vimrc.txt?dl=0
+chown tthompson:tthompson /home/tthompson/.vimrc
