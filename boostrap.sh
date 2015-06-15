@@ -50,7 +50,7 @@ apt-get -y install openjdk-7-jre
 #####################################
 echo "# Installing sysadmin tools #"
 echo "#############################"
-apt-get -y install vim htop sysstat nmap lsof telnet tmux unzip pwgen irssi telnet git ssh-askpass
+apt-get -y install vim vim-nox htop sysstat nmap lsof telnet tmux unzip pwgen irssi telnet git ssh-askpass
 
 # Install mysql-client #
 ##################
@@ -71,7 +71,18 @@ apt-get -y install nginx
 echo "# Installing lint checkers #"
 echo "############################"
 echo ""
-apt-get -y install puppet-lint pylint pyflakes lintian jlint linklint nslint weblint-perl
+apt-get -y install puppet-lint pylint pyflakes lintian jlint linklint nslint weblint-perl libcroco-tools tidy
+pip install flake8
+pip install pylint
+pip install vim-vint
+pip install fluff
+pip install bashlint
+pip install regexlint
+
+# Must install nodejs before using npm to install jslint #
+##########################################################
+apt-get -y install nodejs
+npm install -g jslint
 
 # Create a non-vagrant user #
 #############################
@@ -87,7 +98,7 @@ groupadd -f vboxuser
 
 # my user #
 ###########
-useradd -d /home/tthompson -m -s /bin/bash -G admins,adm,vboxuser tthompson
+useradd -d /home/tthompson -m -s /bin/bash -G admins,adm,vboxuser,vagrant tthompson
 
 # Local sudo Access #
 #####################
@@ -131,12 +142,22 @@ echo ""
 sudo -H -u tthompson /home/tthomspon/bin/getchef.sh
 
 # Copy vimrc #
-wget -O /home/tthompson/.vimrc https://www.dropbox.com/s/68d805d40bq517p/vimrc.txt?dl=0
+##############
+wget -O /home/tthompson/.vimrc https://www.dropbox.com/s/21z2qquqk0n9py8/vimrcplugins?dl=0
 chown tthompson:tthompson /home/tthompson/.vimrc
+
+# Install vim plugins #
+#######################
+echo "#!/bin/bash" > /home/tthompson/bin/vimplugin
+echo "vim +PluginInstall +qall" >> /home/tthompson/bin/vimplugin
+chown tthompson:tthompson/home/tthompson/bin/vimplugin
+sudo -H -u tthompson /home/tthompson/bin/vimplugin
 
 # Epoch time after last config #
 ################################
 finishepoch=`date +%s`
 
-packageconfigtime=$(("startingepoch" - "finishepoch") / 60)
+differenceinseconds=$((startingepoch - finishepoch))
+divider=60
+packageconfigtime=$((differenceinseconds / divider))
 echo "Package configuration took $packageconfigtime minutes"
