@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
    config.vm.network "public_network", bridge: 'wlan0'
 
   # Attempt to enable a bootstrap script
-  config.vm.provision :shell, path: "boostrap.sh"
+  config.vm.provision :shell, path: "bootstrap.sh"
 
   # Attempt to set the internal hostname
   config.vm.hostname = "thompsonwork"
